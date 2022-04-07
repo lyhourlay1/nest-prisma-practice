@@ -1,4 +1,4 @@
-NestJS Recap
+NestJS Recap Hello
 1. Modules(nest generate module) organize and establish clear boundaries, grouping related Controller/Resolver/Services together
 2. Controller(nest generate controller) defining REST endpoints
 3. Resolver(nest generate resolver) defining GraphQL queries/mutations/subscriptions
