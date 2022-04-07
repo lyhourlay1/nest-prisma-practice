@@ -19,8 +19,17 @@ https://docs.nestjs.com/recipes/prisma
 
 8. npm install @prisma/client
 //if you make any changes to the schema, you need to generate Prisma Client again
-9. 
+9. npx prisma generate
 
+
+//Generate Controller and service
+10. nest g controller items
+11. nest g s feed/services/feed --flat --no-spec
+
+
+//Testing
+1. generate specs copy/paste or call nest g c post
+2. add the service, override with an empty object
 questions:
 1. What does ? mark mean in prisma model?
 2. In User Service, what does UserSelect and UserWhereUniqueInput mean/do?
