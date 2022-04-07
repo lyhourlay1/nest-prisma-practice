@@ -28,6 +28,8 @@ https://docs.nestjs.com/recipes/prisma
 
 
 //Testing
+1. npm i class-validator
+
 1. generate specs copy/paste or call nest g c post
 2. add the service, override with an empty object
 questions:
