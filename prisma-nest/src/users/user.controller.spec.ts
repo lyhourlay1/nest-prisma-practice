@@ -8,7 +8,13 @@ const userId = uuidv4();
 describe('UserController and UserService', () => {
   let controller: UserController;
   let mockUserService={
-    createUser : jest.fn(dto=>{
+    // createUser : jest.fn(dto=>{
+    //   return {
+    //     id: 1,
+    //     ...dto
+    //   }
+    // })
+    createUser : jest.fn().mockImplementation(dto=>{
       return {
         id: 1,
         ...dto

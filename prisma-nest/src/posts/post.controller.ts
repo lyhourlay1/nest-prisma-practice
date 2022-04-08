@@ -29,7 +29,7 @@ export class PostController {
       where: { published: true },
     });
   }
-
+  
   //get posts with title/content matching the searchString
   @Get('filtered-posts/:searchString')
   async getFilteredPosts(

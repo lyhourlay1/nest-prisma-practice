@@ -4,6 +4,7 @@ import { PrismaClient } from '@prisma/client';
 @Injectable()
 export class PrismaService extends PrismaClient
   implements OnModuleInit {
+  owner: any;
 
 //The onModuleInit is optional — 
 //if you leave it out, Prisma will connect lazily on 
