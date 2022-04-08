@@ -31,6 +31,21 @@ const posts = [
   authorId: 2
 }]
 
+const deletedPosts = [
+  {id:2, 
+  title: 'title2',
+  content: 'content2',
+  published: true,
+  authorId: 2},
+  
+  {id:3, 
+  title: 'title3',
+  content: 'content3',
+  published: false,
+  authorId: 2
+  }
+]
+
 const publishedPost = [
   {id:2, 
   title: 'title2',
@@ -44,12 +59,17 @@ describe('PostController', () => {
   let controller: PostController;
   let mockPostService= {
     updatePost: jest.fn((param)=>{
-      console.log(posts[param.where.id])
-       posts[param.where.id].published = true
-       return posts[param.where.id]
+       posts[param.where.id-1].published = true
+       return posts[param.where.id-1]
     }),
-    posts: jest.fn(()=>{
-      return publishedPost
+    
+    posts: jest.fn((param = '')=>{
+      if(param==='' || param.where.published ===true) return publishedPost
+      let searchedString =param.where.OR[0].title.contains
+      return posts.filter(ele=>{
+        return ele.title.includes(searchedString) || 
+        ele.content.includes(searchedString)
+      })
     }),
     post: jest.fn(param=>{
       return posts[param.id]
@@ -61,15 +81,14 @@ describe('PostController', () => {
         published: false,
         ...dto
       }
+    }),
+
+    deletePost: jest.fn(param=>{
+      const filtered = posts.filter(ele=>{
+        return ele.id !== param.id
+      })
+      return filtered
     })
-
-    // deletePost: jest.fn(param=>{
-    //   return 
-    // })
-
-  
-
-
   }
 
   //add provider and override it with a mock object
@@ -108,16 +127,32 @@ describe('PostController', () => {
     })
   })
 
-  
-
   it('should update post published status', async ()=>{
     // const dto = {content: 'demoContent', title: 'demoTitle', published: false, authorId:1}
-    expect(await controller.publishPost('0')).toEqual({
+    expect(await controller.publishPost('1')).toEqual({
       id: expect.any(Number),
       title: 'title1',
       content: 'content1',
       published: true,
       authorId: 1
     })
+  })
+
+  it('should delete a post', async ()=>{
+    // const dto = {content: 'demoContent', title: 'demoTitle', published: false, authorId:1}
+    expect(await controller.deletePost('1')).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining(deletedPosts[0]),
+        expect.objectContaining(deletedPosts[1])
+      ])
+    )
+  })
+  it('should filter out the post with the search string', async ()=>{
+    // const dto = {content: 'demoContent', title: 'demoTitle', published: false, authorId:1}
+    expect(await controller.getFilteredPosts('1')).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining(posts[0])
+      ])
+    )
   })
 });
